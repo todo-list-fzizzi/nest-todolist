@@ -10,15 +10,15 @@ import {
 import { TasksService } from './tasks.service';
 import { CreateTaskDto, UpdateTaskDto } from './dto/task.dto';
 import { Task } from './task.entity';
-import { DeleteResult, UpdateResult } from 'typeorm';
+import { DeleteResult } from 'typeorm';
 
 @Controller('tasks')
 export class TasksController {
   constructor(private tasksService: TasksService) {}
 
   @Get()
-  getAllTasks(): Promise<Task[]> {
-    return this.tasksService.getAllTasks();
+  async getAllTasks(): Promise<Task[]> {
+    return await this.tasksService.getAllTasks();
   }
 
   @Post()
@@ -27,15 +27,15 @@ export class TasksController {
   }
 
   @Delete(':id')
-  deleteTask(@Param('id') id: string): Promise<DeleteResult> {
+  deleteTask(@Param('id') id: string): {
+    id: string;
+    deleteResult: Promise<DeleteResult>;
+  } {
     return this.tasksService.deleteTask(id);
   }
 
   @Patch(':id')
-  updateTask(
-    @Param('id') id: string,
-    @Body() updatedFields: UpdateTaskDto,
-  ): Promise<UpdateResult> {
+  updateTask(@Param('id') id: string, @Body() updatedFields: UpdateTaskDto) {
     return this.tasksService.updateTask(id, updatedFields);
   }
 }

@@ -22,7 +22,7 @@ export class UpdateTaskDto {
   @IsOptional()
   description?: string;
 
-  @IsIn([TaskStatus.OPEN, TaskStatus.IN_PROGRESS, TaskStatus.DONE])
+  @IsIn([TaskStatus.PENDING, TaskStatus.COMPLETED])
   @IsOptional()
   status?: TaskStatus;
 }
